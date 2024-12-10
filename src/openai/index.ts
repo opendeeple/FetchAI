@@ -1,7 +1,7 @@
 import OpenAI from "openai";
 import { encoding_for_model } from "tiktoken";
 import {
-  FalconAIChatCompletation,
+  FetchAIChatCompletation,
   OpenAIChatCompletationParams,
   OpenAIChatMessageParams,
 } from "../type";
@@ -23,7 +23,7 @@ export default class OpenAIChatRepository {
             }
           : undefined,
       });
-      const result: FalconAIChatCompletation = {
+      const result: FetchAIChatCompletation = {
         provider: "OpenAI",
         success: true,
         prediction: {
@@ -43,7 +43,7 @@ export default class OpenAIChatRepository {
       return result;
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      const result: FalconAIChatCompletation = {
+      const result: FetchAIChatCompletation = {
         provider: "OpenAI",
         success: false,
         error: message,

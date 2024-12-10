@@ -2,7 +2,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { omit } from "../utils";
 import {
   AnthropicChatCompletationParams,
-  FalconAIChatCompletation,
+  FetchAIChatCompletation,
 } from "../type";
 
 export default class AnthropicChatRepository {
@@ -18,7 +18,7 @@ export default class AnthropicChatRepository {
         content.type == "text"
           ? content.text
           : `${content.name}(id=${content.id}, value=${content.input})`;
-      const result: FalconAIChatCompletation = {
+      const result: FetchAIChatCompletation = {
         provider: "Anthropic",
         success: true,
         prediction: {
@@ -39,7 +39,7 @@ export default class AnthropicChatRepository {
       return result;
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      const result: FalconAIChatCompletation = {
+      const result: FetchAIChatCompletation = {
         provider: "Anthropic",
         success: false,
         error: message,

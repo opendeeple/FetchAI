@@ -1,5 +1,5 @@
 {
-  "name": "falconai",
+  "name": "fetchai",
   "version": "1.0.0",
   "description": "The AI-powered code migration",
   "main": "src/index.ts",
@@ -8,20 +8,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/opendeeple/FalconAI.git"
+    "url": "git+https://github.com/opendeeple/FetchAI.git"
   },
   "keywords": [
     "AI",
-    "Falcon",
-    "Code",
-    "Migraiton"
+    "ChatGPT",
+    "Anthropic"
   ],
   "author": "Firdavs Beknazarov",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/opendeeple/FalconAI/issues"
+    "url": "https://github.com/opendeeple/FetchAI/issues"
   },
-  "homepage": "https://github.com/opendeeple/FalconAI#readme",
+  "homepage": "https://github.com/opendeeple/FetchAI#readme",
   "devDependencies": {
     "eslint": "^9.16.0",
     "prettier": "^3.4.2",

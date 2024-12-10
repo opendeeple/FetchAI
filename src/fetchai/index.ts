@@ -5,10 +5,10 @@ import OpenAIChatRepository from "../openai";
 import {
   AnthropicChatCompletationParams,
   ClientOptions,
-  FalconAIChatCompletationParams,
+  FetchAIChatCompletationParams,
 } from "../type";
 
-export default class FalconAIChatRepository {
+export default class FetchAIChatRepository {
   OpenAI: OpenAIChatRepository;
   Anthropic: AnthropicChatRepository;
 
@@ -20,19 +20,19 @@ export default class FalconAIChatRepository {
   }
 
   private isAnthropic(
-    body: FalconAIChatCompletationParams
+    body: FetchAIChatCompletationParams
   ): body is AnthropicChatCompletationParams {
     return /^claude/.test(body.model);
   }
 
-  async create(body: FalconAIChatCompletationParams) {
+  async create(body: FetchAIChatCompletationParams) {
     if (this.isAnthropic(body)) {
       return this.Anthropic.create(body);
     }
     return this.OpenAI.create(body);
   }
 
-  async countTokens(body: FalconAIChatCompletationParams) {
+  async countTokens(body: FetchAIChatCompletationParams) {
     if (this.isAnthropic(body)) {
       return this.Anthropic.countTokens(body);
     }

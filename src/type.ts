@@ -34,16 +34,16 @@ export interface ClientOptions {
   anthropic?: AnthropicClientOptions;
 }
 
-export type FalconAIChatModels = OpenAIChatModels | AnthropicChatModels;
-export type FalconAIChatMessageParams =
+export type FetchAIChatModels = OpenAIChatModels | AnthropicChatModels;
+export type FetchAIChatMessageParams =
   | OpenAIChatMessageParams
   | AnthropicChatMessageParams;
 
-export type FalconAIChatCompletationParams =
+export type FetchAIChatCompletationParams =
   | OpenAIChatCompletationParams
   | AnthropicChatCompletationParams;
 
-export interface FalconAIChatCompletation {
+export interface FetchAIChatCompletation {
   provider: "OpenAI" | "Anthropic";
   success: boolean;
   error?: string;
