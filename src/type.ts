@@ -9,9 +9,9 @@ export type Maybe<T> = T | null | undefined;
 export type AnthropicChatModels = Anthropic.Messages.Model;
 export type AnthropicChatMessageParams = Anthropic.Messages.MessageParam;
 
-export type AnthropicChatCompletationParams = {
+export type AnthropicChatCompletionParams = {
   model: AnthropicChatModels;
-  system: string;
+  system?: string; // Optional system message
   messages: AnthropicChatMessageParams[];
   max_tokens: number;
   prediction_tokens?: number;
@@ -20,9 +20,9 @@ export type AnthropicChatCompletationParams = {
 export type OpenAIChatModels = TiktokenModel;
 export type OpenAIChatMessageParams = OpenAI.Chat.ChatCompletionMessageParam;
 
-export type OpenAIChatCompletationParams = {
+export type OpenAIChatCompletionParams = {
   model: OpenAIChatModels;
-  system: string;
+  system?: string; // Optional system message
   messages: OpenAIChatMessageParams[];
   prediction?: string;
   max_tokens: number;
@@ -34,16 +34,21 @@ export interface ClientOptions {
   anthropic?: AnthropicClientOptions;
 }
 
-export type FetchAIChatModels = OpenAIChatModels | AnthropicChatModels;
 export type FetchAIChatMessageParams =
-  | OpenAIChatMessageParams
-  | AnthropicChatMessageParams;
+  | (OpenAIChatMessageParams & {
+      role: "system" | "user" | "assistant";
+    })
+  | (AnthropicChatMessageParams & {
+      role: "user" | "assistant";
+    });
 
-export type FetchAIChatCompletationParams =
-  | OpenAIChatCompletationParams
-  | AnthropicChatCompletationParams;
+export type FetchAIChatModels = OpenAIChatModels | AnthropicChatModels;
 
-export interface FetchAIChatCompletation {
+export type FetchAIChatCompletionParams =
+  | OpenAIChatCompletionParams
+  | AnthropicChatCompletionParams;
+
+export interface FetchAIChatCompletion {
   provider: "OpenAI" | "Anthropic";
   success: boolean;
   error?: string;
