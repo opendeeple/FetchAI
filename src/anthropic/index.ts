@@ -1,14 +1,11 @@
 import Anthropic from "@anthropic-ai/sdk";
-import { omit } from "../utils";
-import {
-  AnthropicChatCompletationParams,
-  FetchAIChatCompletation,
-} from "../type";
+import { omit } from "../utils/index";
+import { AnthropicChatCompletionParams, FetchAIChatCompletion } from "../type";
 
 export default class AnthropicChatRepository {
   constructor(readonly provider: Anthropic) {}
 
-  async create(body: AnthropicChatCompletationParams) {
+  async create(body: AnthropicChatCompletionParams) {
     try {
       const completion = await this.provider.messages.create(
         omit(body, ["prediction_tokens"])
@@ -18,7 +15,7 @@ export default class AnthropicChatRepository {
         content.type == "text"
           ? content.text
           : `${content.name}(id=${content.id}, value=${content.input})`;
-      const result: FetchAIChatCompletation = {
+      const result: FetchAIChatCompletion = {
         provider: "Anthropic",
         success: true,
         prediction: {
@@ -39,7 +36,7 @@ export default class AnthropicChatRepository {
       return result;
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      const result: FetchAIChatCompletation = {
+      const result: FetchAIChatCompletion = {
         provider: "Anthropic",
         success: false,
         error: message,
@@ -54,7 +51,7 @@ export default class AnthropicChatRepository {
     }
   }
 
-  async countTokens(body: AnthropicChatCompletationParams) {
+  async countTokens(body: AnthropicChatCompletionParams) {
     const response = await this.provider.beta.messages.countTokens({
       betas: ["token-counting-2024-11-01"],
       ...omit(body, ["max_tokens"]),

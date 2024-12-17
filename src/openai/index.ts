@@ -1,15 +1,11 @@
 import OpenAI from "openai";
 import { encoding_for_model } from "tiktoken";
-import {
-  FetchAIChatCompletation,
-  OpenAIChatCompletationParams,
-  OpenAIChatMessageParams,
-} from "../type";
+import { FetchAIChatCompletion, OpenAIChatCompletionParams } from "../type";
 
 export default class OpenAIChatRepository {
   constructor(readonly provider: OpenAI) {}
 
-  async create(body: OpenAIChatCompletationParams) {
+  async create(body: OpenAIChatCompletionParams) {
     const prediction = body.prediction;
     try {
       const completion = await this.provider.chat.completions.create({
@@ -23,7 +19,7 @@ export default class OpenAIChatRepository {
             }
           : undefined,
       });
-      const result: FetchAIChatCompletation = {
+      const result: FetchAIChatCompletion = {
         provider: "OpenAI",
         success: true,
         prediction: {
@@ -43,7 +39,7 @@ export default class OpenAIChatRepository {
       return result;
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
-      const result: FetchAIChatCompletation = {
+      const result: FetchAIChatCompletion = {
         provider: "OpenAI",
         success: false,
         error: message,
@@ -58,10 +54,10 @@ export default class OpenAIChatRepository {
     }
   }
 
-  async countTokens(body: OpenAIChatCompletationParams) {
+  async countTokens(body: OpenAIChatCompletionParams) {
     const modelEncoding = encoding_for_model(body.model);
 
-    let tokens = modelEncoding.encode(body.system).length;
+    let tokens = body.system ? modelEncoding.encode(body.system).length : 0;
 
     const messages = body.messages;
     for (const message of messages) {
@@ -80,14 +76,14 @@ export default class OpenAIChatRepository {
     return tokens;
   }
 
-  private buildMessages(body: OpenAIChatCompletationParams) {
-    const messages: OpenAIChatMessageParams[] = [
-      {
+  private buildMessages(body: OpenAIChatCompletionParams) {
+    const messages: OpenAI.Chat.ChatCompletionMessageParam[] = [];
+    if (body.system) {
+      messages.push({
         role: "system",
         content: body.system,
-      },
-      ...body.messages,
-    ];
-    return messages;
+      });
+    }
+    return [...messages, ...body.messages];
   }
 }
