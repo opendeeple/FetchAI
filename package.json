@@ -1,10 +1,15 @@
 {
-  "name": "fetchai",
-  "version": "1.0.0",
+  "name": "@opendeeple/fetchai",
+  "version": "1.0.4",
   "description": "The AI-powered code migration",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "npm run test"
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "prepare": "npm run build",
+    "lint": "eslint .",
+    "format": "prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -13,7 +18,8 @@
   "keywords": [
     "AI",
     "ChatGPT",
-    "Anthropic"
+    "Anthropic",
+    "Code Migration"
   ],
   "author": "Firdavs Beknazarov",
   "license": "MIT",
