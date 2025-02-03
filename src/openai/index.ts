@@ -6,24 +6,18 @@ export default class OpenAIChatRepository {
   constructor(readonly provider: OpenAI) {}
 
   async create(body: OpenAIChatCompletionParams) {
-    const prediction = body.prediction;
     try {
       const completion = await this.provider.chat.completions.create({
         model: body.model,
         messages: this.buildMessages(body),
         max_tokens: body.max_tokens,
-        prediction: prediction
-          ? {
-              type: "content",
-              content: prediction,
-            }
-          : undefined,
       });
+
       const result: FetchAIChatCompletion = {
         provider: "OpenAI",
         success: true,
         prediction: {
-          id: completion._request_id ? completion._request_id : undefined,
+          id: completion.id,
           content: completion.choices[0].message.content ?? "",
           openai: completion,
         },
