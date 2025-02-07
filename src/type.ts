@@ -6,9 +6,14 @@ import { TiktokenModel } from "tiktoken";
 
 export type Maybe<T> = T | null | undefined;
 
+export interface FetchAITextBlockParams {
+  type: "text";
+  text: string;
+}
+
 export interface FetchAIChatMessageParams {
   role: "assistant" | "user";
-  content: string;
+  content: string | Array<FetchAITextBlockParams>;
 }
 
 export type AnthropicChatModels = Anthropic.Messages.Model;
